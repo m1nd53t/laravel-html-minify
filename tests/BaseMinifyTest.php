@@ -43,7 +43,8 @@ abstract class BaseMinifyTester extends PHPUnit_Framework_TestCase
 
     public function testKeepConditionalComments()
     {
-        $string = '<html>
+        $string = '<!--[if lt IE 9]><html><![endif]-->
+            <!--[if gt IE 8]><!--> <html> <!--<![endif]-->
             <body>
                 <!--[if IE 6]>
                     <p>hello, IE6 user</p>
@@ -52,7 +53,7 @@ abstract class BaseMinifyTester extends PHPUnit_Framework_TestCase
                 <!--[if IE 8]><p>hello, IE8 user</p><![endif]-->
             </body>
         </html>';
-        $expected = '<html> <body> <!--[if IE 6]> <p>hello, IE6 user</p> <![endif]--> <!--[if IE 8]><p>hello, IE8 user</p><![endif]--> </body> </html>';
+        $expected = '<!--[if lt IE 9]><html><![endif]--> <!--[if gt IE 8]><!--> <html> <!--<![endif]--> <body> <!--[if IE 6]> <p>hello, IE6 user</p> <![endif]--> <!--[if IE 8]><p>hello, IE8 user</p><![endif]--> </body> </html>';
 
         $result = $this->compiler->compileString($string);
 
