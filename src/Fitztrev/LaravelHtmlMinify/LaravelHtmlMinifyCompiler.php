@@ -65,13 +65,14 @@ class LaravelHtmlMinifyCompiler extends BladeCompiler
     {
         if ($this->shouldMinify($value)) {
             $replace = array(
-                '/<!--[^\[](.*?)[^\]]-->/s' => '',
-                "/<\?php/"                  => '<?php ',
-                "/\n([\S])/"                => ' $1',
-                "/\r/"                      => '',
-                "/\n/"                      => '',
-                "/\t/"                      => ' ',
-                "/ +/"                      => ' ',
+                //Remove HTML comments except IE conditions
+                '/<!--(?!\s*(?:\[if [^\]]+]|<!|>))(?:(?!-->).)*-->/s' => '',
+                "/<\?php/"                                            => '<?php ',
+                "/\n([\S])/"                                          => ' $1',
+                "/\r/"                                                => '',
+                "/\n/"                                                => '',
+                "/\t/"                                                => ' ',
+                "/ +/"                                                => ' ',
             );
 
             return preg_replace(
